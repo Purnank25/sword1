@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     // Inputs
     private Rigidbody2D playerRB;
     private float horizontalInput;
+    private bool isground;
     // Animation
     private Animator playerAnim;
 
@@ -34,10 +35,11 @@ public class PlayerMovement : MonoBehaviour
             playerAnim.SetBool("isRunning", false);
         }
         
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        isground 
+        if (Input.GetKeyDown(KeyCode.Space) && isground )
         {
             playerRB.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            playerAnim.SetTrigger("jumpTrig");
         }
     }
 }
