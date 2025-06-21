@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-   // Physics
+    // Physics
     public float jumpForce = 3.0f;
     private float xVelocity = 5.0f;
     // Inputs
     private Rigidbody2D playerRB;
     private float horizontalInput;
-    private bool isground;
+    // ground cheacking
+    public bool isground;
+
     // Animation
     private Animator playerAnim;
 
@@ -20,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
         playerRB = GetComponent<Rigidbody2D>();
         playerAnim = GetComponent<Animator>();
     }
-    
+
     // Update is called once per frame
     void Update()
     {
@@ -34,12 +36,29 @@ public class PlayerMovement : MonoBehaviour
         {
             playerAnim.SetBool("isRunning", false);
         }
-        
-        isground 
-        if (Input.GetKeyDown(KeyCode.Space) && isground )
+
+
+        if (Input.GetKeyDown(KeyCode.Space) && isground)
         {
             playerRB.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             playerAnim.SetTrigger("jumpTrig");
+            isground = false;
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("left button clicked");
+            playerAnim.SetTrigger("attackTrig");
+        }
+       
+
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isground = true;
+
         }
     }
 }
