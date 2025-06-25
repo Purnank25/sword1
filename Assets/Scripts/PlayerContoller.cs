@@ -13,7 +13,11 @@ public class PlayerMovement : MonoBehaviour
     public bool isground;
 
     // Animation
-    private Animator playerAnim;
+    public Animator playerAnim;
+    private SpriteRenderer playerRenderer;
+
+    //
+    public GameObject attackHitbox;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,19 +25,28 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         playerRB = GetComponent<Rigidbody2D>();
         playerAnim = GetComponent<Animator>();
+        playerRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
         horizontalInput = Input.GetAxis("Horizontal");
-        if (horizontalInput >= 0.1f || horizontalInput <= -0.1f)
+        if (horizontalInput >= 0.1f && isground)
         {
             playerRB.linearVelocityX = xVelocity * horizontalInput;
             playerAnim.SetBool("isRunning", true);
+            playerRenderer.flipX = false;
         }
-        else
+        else if (horizontalInput <= -0.1f && isground)
         {
+
+            playerRB.linearVelocityX = xVelocity * horizontalInput;
+            playerRenderer.flipX = true;
+            playerAnim.SetBool("isRunning", true);
+        }
+        else 
+        { 
             playerAnim.SetBool("isRunning", false);
         }
 
@@ -47,9 +60,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("left button clicked");
+            attackHitbox.SetActive(true);
             playerAnim.SetTrigger("attackTrig");
         }
+       
        
 
     }

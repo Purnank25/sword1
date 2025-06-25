@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - HealingFlower
+  - PlayerAttack
+  - Collectables
   layers:
   - Default
   - TransparentFX
